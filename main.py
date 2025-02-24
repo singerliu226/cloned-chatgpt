@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
+load_dotenv('.venv/.env')
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("API key is missing or empty")
