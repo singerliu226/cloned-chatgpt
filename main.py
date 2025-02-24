@@ -5,6 +5,7 @@ from utils import generate_script
 
 # 加载 .env 文件
 load_dotenv()
+print(f"Loaded environment variable: {os.getenv('OPENAI_API_KEY')}")  # 调试信息
 
 st.title("🎬 视频脚本生成器")
 
@@ -29,13 +30,16 @@ if submit and video_length <= 0.1:
     st.info("视频时长需大于0.1分钟")
     st.stop()
 
-if submit:
-    with st.spinner(("AI正在思考中，请稍等...")):
-        search_result, title, script = generate_script(subject, video_length, creativity, openai_api_key)
-    st.success("视频脚本已经生成")
-    st.subheader("🔥标题：")
-    st.write(title)
-    st.subheader("✍️视频脚本：")
-    st.write(script)
-    with st.expander("维基百科的搜索结果是👀"):
-        st.info(search_result)
+try:
+    if submit:
+        with st.spinner(("AI正在思考中，请稍等...")):
+            search_result, title, script = generate_script(subject, video_length, creativity, openai_api_key)
+        st.success("视频脚本已经生成")
+        st.subheader("🔥标题：")
+        st.write(title)
+        st.subheader("✍️视频脚本：")
+        st.write(script)
+        with st.expander("维基百科的搜索结果是👀"):
+            st.info(search_result)
+except Exception as e:
+    st.error(f"生成过程中出现错误: {e}")
